@@ -1,6 +1,7 @@
 #  By Hadil Alsudies
 #  !/usr/bin/env python3
 
+
 import psycopg2
 
 
@@ -70,6 +71,7 @@ def myquestions():
 def main():
     # Runs a function that prints out the results of 3 questions: Q1, Q2 and Q3
     myquestions()
+
 
 if __name__ == "__main__":
     main()
