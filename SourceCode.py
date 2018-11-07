@@ -1,13 +1,11 @@
 #  By Hadil Alsudies
+#  !/usr/bin/env python3
 
 import psycopg2
 
 
-def myquestions():
-    # Runs all 3 queries and prints out the results
-    db = None
-    db = psycopg2.connect('dbname=news user=postgres password=123')
-
+def query1(db):
+    # Runs the first query and prints it
     c1 = db.cursor()
     c1.execute("""SELECT A.title AS ArticleName, count(log.logSlug)  AS views
     FROM articles A, (SELECT regexp_replace(log.path, '^.+[/\\\]','')
@@ -21,6 +19,9 @@ def myquestions():
             break
         print("\""+row[0]+"\" -- "+str(row[1])+" views"+"\t\t")
 
+
+def query2(db):
+    # Runs the second query and prints it
     c2 = db.cursor()
     c2.execute("""SELECT authors.name AS AuthorName,
     count(log.logSlug) AS views FROM articles A, authors,
@@ -35,6 +36,9 @@ def myquestions():
             break
         print(row[0]+" -- "+str(row[1])+" views"+"\t\t")
 
+
+def query3(db):
+    # Runs the third query and prints it
     c3 = db.cursor()
     c3.execute("""SELECT dates, ErrorStatus
     FROM (SELECT to_char(time,'MON DD,YYYY') AS dates,
@@ -49,6 +53,18 @@ def myquestions():
         if row is None:
             break
         print(row[0]+" -- "+str(row[1])+" % errors"+"\t\t")
+
+
+def myquestions():
+    # Runs all 3 queries functions
+    db = None
+    try:
+        db = psycopg2.connect('dbname=news user=postgres password=123')
+        query1(db)
+        query2(db)
+        query3(db)
+    except psycopg2.DatabaseError:
+        print("<error message>")
 
 
 def main():
